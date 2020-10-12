@@ -138,6 +138,4 @@ while running:
         enemyX = random.randint(0, 736)
         enemyY = random.randint(50, 150)
         enemy(enemyX, enemyY)
-'''
-
 
