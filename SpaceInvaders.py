@@ -7,7 +7,8 @@ pygame.init()
 # creating screen
 screen = pygame.display.set_mode((800, 600))
 
-# enemy class
+
+# Defining enemy class
 class Enemy:
 
     def __init__(self, enemyImg, enemyX, enemyY, enemyX_change):
@@ -15,6 +16,26 @@ class Enemy:
         self.enemyX = enemyX
         self.enemyY = enemyY
         self.enemyX_change = enemyX_change
+
+
+# Defining bullet class
+class Bullet:
+
+    def __init__(self, bulletImg, bulletX, bulletY, bulletY_change):
+        self.bulletImg = bulletImg
+        self.bulletX = bulletX
+        self.bulletY = bulletY
+        self.bulletY_change = bulletY_change
+
+
+        # Bullet
+        # Ready - you can't see the bullet on the screen
+        # Fire - the bullet is currently moving
+        # bulletImg = pygame.image.load("bullet.png")
+        # bulletX = 0
+        # bulletY = 490
+        # bulletY_change = -6
+        # bullet_state = "ready"
 
 
 # Background image
@@ -34,19 +55,20 @@ playerX_change = 0
 # Enemy
 list_of_enemies = []
 number_of_enemies = 5
+score = 0
+# number_of_bullets = 0
+list_of_bullets = []
+
+
 for i in range(number_of_enemies):
     list_of_enemies.append(Enemy(pygame.image.load("enemy.png"), random.randint(0, 736), random.randint(50, 150), -1))
 
-# Bullet
-# Ready - you can't see the bullet on the screen
-# Fire - the bullet is currently moving
-bulletImg = pygame.image.load("bullet.png")
-bulletX = 0
-bulletY = 490
-bulletY_change = -6
-bullet_state = "ready"
 
-score = 0
+# Function which creates new bullets
+def create_bullets(x):
+    # print(number_of_bullets)
+    list_of_bullets.append(Bullet(pygame.image.load("bullet.png"), x, 490, -6))
+
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
@@ -56,16 +78,13 @@ def enemy(x, y, i):
     screen.blit(list_of_enemies[i].enemyImg, (x, y))
 
 
-def fire_bullet (x, y):
-    global bullet_state
-    bullet_state = "fire"
-
 def isCollision(enemyX, enemyY, bulletX, bulletY):
-    distance = math.sqrt((math.pow(enemyX - bulletX,2)) + (math.pow(enemyY - bulletY, 2)))
+    distance = math.sqrt((math.pow(enemyX - bulletX, 2)) + (math.pow(enemyY - bulletY, 2)))
     if distance < 27:
         return True
     else:
         return False
+
 
 # Infinite Game Loop
 running = True
@@ -90,23 +109,25 @@ while running:
                 playerX_change = 4
 
             if event.key == pygame.K_SPACE:
-                if bullet_state == "ready":
-                    bulletX = playerX
-                    fire_bullet(bulletX, bulletY)
+
+                bulletX = playerX
+                # print(bulletX)
+                create_bullets(bulletX)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
 
 
-# bullet movement
-    if bullet_state == "fire":
-        screen.blit(bulletImg, (bulletX + 16, bulletY))
-        bulletY += bulletY_change
+# bullets movement
+    for i in range(len(list_of_bullets)):
+        screen.blit(list_of_bullets[i].bulletImg, (list_of_bullets[i].bulletX + 16, list_of_bullets[i].bulletY))
+        list_of_bullets[i].bulletY += list_of_bullets[i].bulletY_change
+        if list_of_bullets[i].bulletY <= 0:
+            list_of_bullets[i].bulletY = 1000
+            list_of_bullets[i].bulletY_change = 0
 
-    if bulletY <= 0:
-        bulletY = 490
-        bullet_state = "ready"
+            # list_of_bullets[i].bulletState = "ready"
 
 # enemy movement
     for i in range(number_of_enemies):
@@ -118,14 +139,18 @@ while running:
             list_of_enemies[i].enemyY +=50
             list_of_enemies[i].enemyX_change *= -1
             # Collision
-        collision = isCollision(list_of_enemies[i].enemyX, list_of_enemies[i].enemyY, bulletX, bulletY)
-        if collision:
-            bulletY = 490
-            bullet_state = "ready"
-            score += 1
-            print(score)
-            list_of_enemies[i].enemyX = random.randint(0, 736)
-            list_of_enemies[i].enemyY = random.randint(50, 150)
+        for j in range(len(list_of_bullets)):
+            collision = isCollision(list_of_enemies[i].enemyX, list_of_enemies[i].enemyY, list_of_bullets[j].bulletX, list_of_bullets[j].bulletY)
+            if collision:
+
+                score += 1
+                print(score)
+                list_of_enemies[i].enemyX = random.randint(0, 736)
+                list_of_enemies[i].enemyY = random.randint(50, 150)
+                list_of_bullets[j].bulletY = 1000
+                list_of_bullets[j].bulletY_change = 0
+                # list_of_bullets[i].bulletState = "ready"
+
         enemy(list_of_enemies[i].enemyX, list_of_enemies[i].enemyY, i)
     # player movement
     playerX += playerX_change
@@ -136,17 +161,4 @@ while running:
         playerX = 736
 
     player(playerX, playerY)
-
     pygame.display.update()
-'''
-# Collision
-    # Distance between bullet and the enemy to detect collision
-    DistanceX = pow((enemyX - bulletX), 2)
-    DistanceY = pow((enemyY - bulletY), 2)
-    distance = math.sqrt(DistanceX + DistanceY)
-    print(distance)
-    if distance <= 32:
-        enemyX = random.randint(0, 736)
-        enemyY = random.randint(50, 150)
-        enemy(enemyX, enemyY)
-'''
