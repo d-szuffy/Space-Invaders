@@ -120,7 +120,6 @@ def main_menu():
 
 
 # Infinite Game Loop
-<<<<<<< HEAD
 def game():
     # Player
     global playerImg, playerX, playerY, playerX_change
@@ -208,78 +207,3 @@ def game():
         pygame.display.update()
 
 main_menu()
-=======
-running = True
-
-while running:
-
-    # RGB = Red, Green, Blue
-    # Filling background with color
-    # screen.fill((0, 0, 0))
-
-    # Filling background img
-    screen.blit(backgroundImg, (0, 0))
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        # if keystroke is pressed or not
-        if event.type == pygame.KEYDOWN:
-
-            if event.key == pygame.K_LEFT:
-                playerX_change = -4
-
-            if event.key == pygame.K_RIGHT:
-                playerX_change = 4
-
-            if event.key == pygame.K_SPACE:
-                bulletX = playerX
-                create_bullets(bulletX)
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                playerX_change = 0
-
-
-# bullets movement
-    for i in range(len(list_of_bullets)):
-        screen.blit(list_of_bullets[i].bulletImg, (list_of_bullets[i].bulletX + 16, list_of_bullets[i].bulletY))
-        list_of_bullets[i].bulletY += list_of_bullets[i].bulletY_change
-        if list_of_bullets[i].bulletY <= 0:
-            list_of_bullets[i].bulletY = 1000
-            list_of_bullets[i].bulletY_change = 0
-
-
-# enemy movement
-    for i in range(number_of_enemies):
-        list_of_enemies[i].enemyX += list_of_enemies[i].enemyX_change
-        if list_of_enemies[i].enemyX >= 735:
-            list_of_enemies[i].enemyY += 50
-            list_of_enemies[i].enemyX_change *= -1
-        if list_of_enemies[i].enemyX <= 1:
-            list_of_enemies[i].enemyY += 50
-            list_of_enemies[i].enemyX_change *= -1
-            # Collision
-        for j in range(len(list_of_bullets)):
-            collision = isCollision(list_of_enemies[i].enemyX, list_of_enemies[i].enemyY,
-                                    list_of_bullets[j].bulletX, list_of_bullets[j].bulletY)
-            if collision:
-
-                score += 1
-                print(score)
-                list_of_enemies[i].enemyX = random.randint(0, 736)
-                list_of_enemies[i].enemyY = random.randint(50, 150)
-                list_of_bullets[j].bulletY = 1000
-                list_of_bullets[j].bulletY_change = 0
-
-        enemy(list_of_enemies[i].enemyX, list_of_enemies[i].enemyY, i)
-
-    # player movement
-    playerX += playerX_change
-
-    if playerX <= 0:
-        playerX = 0
-    if playerX >= 736:
-        playerX = 736
-    player(playerX, playerY)
-    pygame.display.update()
-
