@@ -52,7 +52,7 @@ prev_score = 0
 new_score = 0
 # number_of_bullets = 0
 list_of_bullets = []
-
+accuracy = 100
 # Detecting Mouse button click
 click = False
 
@@ -125,7 +125,7 @@ def game():
     # Player
     global playerImg, playerX, playerY, playerX_change, backgroundImg, font
     # Enemy
-    global list_of_enemies, number_of_enemies, new_score, list_of_bullets
+    global list_of_enemies, number_of_enemies, new_score, list_of_bullets, accuracy
 
     running = True
     while running:
@@ -136,6 +136,9 @@ def game():
         # Filling background img
         screen.blit(backgroundImg, (0, 0))
         draw_text("Score: " + str(new_score), font, (255, 25, 255,), screen, 20, 20)
+        draw_text("Bullets fired: " + str(len(list_of_bullets)), font, (255, 25, 255,), screen, 100, 20)
+        draw_text("Accuracy: " + str(accuracy) + "%", font, (255, 25, 255,), screen, 220, 20)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -202,6 +205,11 @@ def game():
             playerX = 0
         if playerX >= 736:
             playerX = 736
+
+        if len(list_of_bullets) == 0:
+            accuracy = 100
+        else:
+            accuracy = round(new_score / len(list_of_bullets) * 100)
 
         player(playerX, playerY)
         pygame.display.update()
