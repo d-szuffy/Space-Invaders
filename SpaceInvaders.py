@@ -66,6 +66,9 @@ list_of_bullets = []
 # Detecting Mouse button click
 click = False
 
+# Setting font
+font = pygame.font.SysFont(None, 20)
+
 
 for i in range(number_of_enemies):
     list_of_enemies.append(Enemy(pygame.image.load("enemy.png"), random.randint(0, 736), random.randint(50, 150), -1))
@@ -91,6 +94,14 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
         return True
     else:
         return False
+
+# Drawin text on the screen to display current score
+def draw_text(text, font, color, surface, x, y):
+    textobj = font.render(text, 2, color)
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
 
 # MAIN MENU
 def main_menu():
@@ -122,7 +133,7 @@ def main_menu():
 # Infinite Game Loop
 def game():
     # Player
-    global playerImg, playerX, playerY, playerX_change
+    global playerImg, playerX, playerY, playerX_change, backgroundImg, font
     # Enemy
     global list_of_enemies, number_of_enemies, new_score, list_of_bullets
 
@@ -134,8 +145,8 @@ def game():
         # Filling background with color
         # screen.fill((0, 0, 0))
         # Filling background img
-        global backgroundImg
         screen.blit(backgroundImg, (0, 0))
+        draw_text("Score: " + str(new_score), font, (255, 25, 255,), screen, 20, 20)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
