@@ -106,7 +106,6 @@ def main_menu():
             if click:
                 game()
         screen.blit(StartBtnImg, (272, 172))
-        print(mx, my)
 
         click = False
         for event in pygame.event.get():
@@ -116,7 +115,6 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
-                    print(click)
         pygame.display.update()
 
 
@@ -190,7 +188,6 @@ def game():
                                         list_of_bullets[j].bulletX, list_of_bullets[j].bulletY)
                 if collision:
                     new_score += 1
-                    print(new_score)
                     list_of_enemies[i].enemyX = random.randint(1, 735)
                     list_of_enemies[i].enemyY = random.randint(50, 150)
                     list_of_bullets[j].bulletY = 1000
