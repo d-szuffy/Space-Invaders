@@ -120,10 +120,10 @@ while running:
 # enemy movement
     for i in range(number_of_enemies):
         list_of_enemies[i].enemyX += list_of_enemies[i].enemyX_change
-        if list_of_enemies[i].enemyX >= 736:
+        if list_of_enemies[i].enemyX >= 735:
             list_of_enemies[i].enemyY += 50
             list_of_enemies[i].enemyX_change *= -1
-        if list_of_enemies[i].enemyX <= 0:
+        if list_of_enemies[i].enemyX <= 1:
             list_of_enemies[i].enemyY += 50
             list_of_enemies[i].enemyX_change *= -1
             # Collision
