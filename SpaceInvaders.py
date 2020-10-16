@@ -28,16 +28,6 @@ class Bullet:
         self.bulletY_change = bulletY_change
 
 
-        # Bullet
-        # Ready - you can't see the bullet on the screen
-        # Fire - the bullet is currently moving
-        # bulletImg = pygame.image.load("bullet.png")
-        # bulletX = 0
-        # bulletY = 490
-        # bulletY_change = -6
-        # bullet_state = "ready"
-
-
 # Background image
 backgroundImg = pygame.image.load("background.png")
 
@@ -95,6 +85,7 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
     else:
         return False
 
+
 # Drawin text on the screen to display current score
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 2, color)
@@ -129,14 +120,12 @@ def main_menu():
         pygame.display.update()
 
 
-
 # Infinite Game Loop
 def game():
     # Player
     global playerImg, playerX, playerY, playerX_change, backgroundImg, font
     # Enemy
     global list_of_enemies, number_of_enemies, new_score, list_of_bullets
-
 
     running = True
     while running:
@@ -173,7 +162,6 @@ def game():
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     playerX_change = 0
 
-
     # bullets movement
         for i in range(len(list_of_bullets)):
             screen.blit(list_of_bullets[i].bulletImg, (list_of_bullets[i].bulletX + 16, list_of_bullets[i].bulletY))
@@ -188,14 +176,15 @@ def game():
         for i in range(number_of_enemies):
             list_of_enemies[i].enemyX += list_of_enemies[i].enemyX_change
             if list_of_enemies[i].enemyX >= 736:
-                list_of_enemies[i].enemyY +=50
+                list_of_enemies[i].enemyY += 50
                 list_of_enemies[i].enemyX_change *= -1
-            if list_of_enemies[i].enemyX <=0:
-                list_of_enemies[i].enemyY +=50
+            if list_of_enemies[i].enemyX <= 0:
+                list_of_enemies[i].enemyY += 50
                 list_of_enemies[i].enemyX_change *= -1
                 # Collision
             for j in range(len(list_of_bullets)):
-                collision = isCollision(list_of_enemies[i].enemyX, list_of_enemies[i].enemyY, list_of_bullets[j].bulletX, list_of_bullets[j].bulletY)
+                collision = isCollision(list_of_enemies[i].enemyX, list_of_enemies[i].enemyY,
+                                        list_of_bullets[j].bulletX, list_of_bullets[j].bulletY)
                 if collision:
                     new_score += 1
                     print(new_score)
@@ -209,12 +198,13 @@ def game():
         # player movement
         playerX += playerX_change
 
-        if playerX <=0:
+        if playerX <= 0:
             playerX = 0
-        if playerX >=736:
+        if playerX >= 736:
             playerX = 736
 
         player(playerX, playerY)
         pygame.display.update()
+
 
 main_menu()
