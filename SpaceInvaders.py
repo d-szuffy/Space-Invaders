@@ -206,7 +206,7 @@ def game():
         if len(list_of_bullets) == 0:
             accuracy = 100
         else:
-            accuracy = round(new_score / len(list_of_bullets) * 100)
+            accuracy = "{:.2f}".format(new_score / len(list_of_bullets) * 100)
 
         player(playerX, playerY)
         pygame.display.update()
