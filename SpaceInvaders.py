@@ -187,10 +187,10 @@ def game():
     # enemy movement
         for i in range(number_of_enemies):
             list_of_enemies[i].enemyX += list_of_enemies[i].enemyX_change
-            if list_of_enemies[i].enemyX >= 735:
+            if list_of_enemies[i].enemyX >= 736:
                 list_of_enemies[i].enemyY +=50
                 list_of_enemies[i].enemyX_change *= -1
-            if list_of_enemies[i].enemyX <=1:
+            if list_of_enemies[i].enemyX <=0:
                 list_of_enemies[i].enemyY +=50
                 list_of_enemies[i].enemyX_change *= -1
                 # Collision
@@ -199,7 +199,7 @@ def game():
                 if collision:
                     new_score += 1
                     print(new_score)
-                    list_of_enemies[i].enemyX = random.randint(0, 736)
+                    list_of_enemies[i].enemyX = random.randint(1, 735)
                     list_of_enemies[i].enemyY = random.randint(50, 150)
                     list_of_bullets[j].bulletY = 1000
                     list_of_bullets[j].bulletY_change = 0
