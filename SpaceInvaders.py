@@ -45,6 +45,9 @@ playerX_change = 0
 # Start button
 StartBtnImg = pygame.image.load("start.png")
 
+# Game Over icon
+game_over_icon = pygame.image.load("game-over.png")
+
 # Enemy
 list_of_enemies = []
 number_of_enemies = 5
@@ -117,6 +120,18 @@ def main_menu():
                     click = True
         pygame.display.update()
 
+def game_over():
+    while True:
+        global backgroundImg, click
+        screen.blit(backgroundImg, (0, 0))
+        screen.blit(game_over_icon, (272, 172))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        pygame.display.update()
 
 # Infinite Game Loop
 def game():
@@ -182,6 +197,8 @@ def game():
             if list_of_enemies[i].enemyX <= 0:
                 list_of_enemies[i].enemyY += 50
                 list_of_enemies[i].enemyX_change *= -1
+            if list_of_enemies[i].enemyY >= 450:
+                game_over()
                 # Collision
             for j in range(len(list_of_bullets)):
                 collision = isCollision(list_of_enemies[i].enemyX, list_of_enemies[i].enemyY,
