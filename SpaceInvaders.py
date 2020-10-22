@@ -64,7 +64,7 @@ font = pygame.font.SysFont(None, 20)
 
 
 for i in range(number_of_enemies):
-    list_of_enemies.append(Enemy(pygame.image.load("enemy.png"), random.randint(0, 736), random.randint(50, 150), -1))
+    list_of_enemies.append(Enemy(pygame.image.load("enemy.png"), random.randint(0, 736), random.randint(50, 150), -3))
 
 
 # Function which creates new bullets
@@ -197,7 +197,7 @@ def game():
             if list_of_enemies[i].enemyX <= 0:
                 list_of_enemies[i].enemyY += 50
                 list_of_enemies[i].enemyX_change *= -1
-            if list_of_enemies[i].enemyY >= 450:
+            if list_of_enemies[i].enemyY >= 416:
                 game_over()
                 # Collision
             for j in range(len(list_of_bullets)):
